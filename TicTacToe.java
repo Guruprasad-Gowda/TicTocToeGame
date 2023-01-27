@@ -11,7 +11,7 @@ public class TicTacToe {
     private char[] creatingBoard() {
         System.out.println("\nCreated Board");
         @SuppressWarnings("unused")
-        //creating a board for empty
+        // creating a board for empty
         char board[] = new char[4];
         for (int i = 1; i < 4; i++) {
             board[i] = ' ';
@@ -42,6 +42,7 @@ public class TicTacToe {
     // creating Method3
     private void User() {
         int spot;
+        char blank = ' ';
         System.out.println("\nPlayer Call for toss Type '0' for Head or '1' for Tail"); // calling for toss
 
         Scanner sc = new Scanner(System.in);
@@ -49,21 +50,60 @@ public class TicTacToe {
 
         int check = (int) (Math.random() * 10) % 2; // getting head or tails randomly.
         alternatePlay();
-        if (check == toss) {
-            System.out.println("\t###..Player got chance to move..###");
-            System.out.println("\nChoose the location to move");
-            boolean posTaken = true; // calling the function
-            while (posTaken) {
-                Scanner in = new Scanner(System.in);
-                spot = in.nextInt();
-                posTaken = checkPosn(spot);
-                if (posTaken == false) // calling the function
-                    board[spot] = choosePlayer(); // move character to the selected position
-                currentBoard(); // display new board
+        do {
+            if (check == toss) {
+                System.out.println("\t###..Player got chance to move..###");
+                System.out.println("\nChoose the location to move");
+                boolean posTaken = true; // calling the function
+                while (posTaken) {
+                    Scanner in = new Scanner(System.in);
+                    spot = in.nextInt();
+                    posTaken = checkPosn(spot);
+                    if (posTaken == false) // calling the function
+                        board[spot] = choosePlayer(); // move character to the selected position
+                    currentBoard(); // display new board
+                }
+            } else {
+                System.out.println("\t###..Computer got chance to move..###");
             }
-        } else {
-            System.out.println("\t###..Computer got chance to move..###");
+        } while (checkWinner() == blank);
+    }
+
+    public char checkWinner() {
+        char Winner = ' ';
+
+        // Check if X wins
+        if (board[1] == 'X' && board[2] == 'X' && board[3] == 'X')
+            Winner = 'X';
+        if (board[4] == 'X' && board[5] == 'X' && board[6] == 'X')
+            Winner = 'X';
+        if (board[7] == 'X' && board[8] == 'X' && board[9] == 'X')
+            Winner = 'X';
+        if (board[1] == 'X' && board[4] == 'X' && board[7] == 'X')
+            Winner = 'X';
+        if (board[2] == 'X' && board[5] == 'X' && board[8] == 'X')
+            Winner = 'X';
+        if (board[3] == 'X' && board[6] == 'X' && board[9] == 'X')
+            Winner = 'X';
+        if (board[1] == 'X' && board[5] == 'X' && board[9] == 'X')
+            Winner = 'X';
+        if (board[3] == 'X' && board[5] == 'X' && board[7] == 'X')
+            Winner = 'X';
+        if (Winner == 'X') {
+            System.out.println("Player wins the game.");
         }
+        for (int i = 1; i < 10; i++) {
+            if (board[i] == 'X' || board[i] == 'O') {
+                if (i == 9) {
+                    char Draw = 'D';
+                    System.out.println(" Game is stalemate ");
+                    return Draw;
+                }
+                continue;
+            } else
+                break;
+        }
+        return Winner;
     }
 
     // creating Method4
